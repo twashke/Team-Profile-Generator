@@ -26,7 +26,7 @@ describe("getRole", () => {
     it("Gets engineer role when getRole function is called", () => {
         // Declare variables for role and new engineer
         const engineerRole = "Engineer";
-        const newEngineer = newEngineer("Emily", 200, "random@test.com", "githubUsername");
+        const newEngineer = new Engineer("Emily", 200, "random@test.com", "githubUsername");
         // Expect function to return engineer role
         expect(newEngineer.getRole()).toBe(engineerRole);
     });
