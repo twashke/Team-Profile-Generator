@@ -14,7 +14,7 @@ describe("Engineer", () => {
 // Test function to get github username
 describe("getGithubUsername", () => {
     it("Gets github username when getGithubUsername function is called", ()=> {
-        // Declare variables for role and new github username
+        // Declare variables for github username and new engineer
         const engineerGithub = "githubUsername";
         const newEngineer = new Engineer("Emily", 200, "random@test.com");
         // Expect the Engineer github name to be the new github username
