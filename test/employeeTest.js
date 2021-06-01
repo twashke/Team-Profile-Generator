@@ -9,21 +9,21 @@ describe("Employee", () => {
         // Expect an object
         expect(typeof(newEmployee)).toBe("object");
     });
-    it("Sets name using constructor arguement", () => {
+    it("Sets name using constructor function", () => {
         // Declare variables for name and employee
         const newName = "Emily";
         const newEmployee = newEmployee(newName);
         // Expect the employee name to be the new name
         expect(newEmployee.name).toBe(newName);
     });
-    it("Sets id using constuctor arguement", () => {
+    it("Sets id using constuctor function", () => {
         // Declare variables for id and employee
         const newId = 200;
         const newEmployee = new Employee("Emily", newId);
         // Expect the employee id to be the new id
         expect(newEmployee.id).toBe(newId);
     });
-    it("Sets email using constructor argument", () => {
+    it("Sets email using constructor function", () => {
         // Declare variables for email and employee
         const newEmail = "random@test.com";
         const newEmployee = new Employee("Emily", 200, newEmail);
