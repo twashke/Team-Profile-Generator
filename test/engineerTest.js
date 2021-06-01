@@ -7,7 +7,7 @@ describe("Engineer", () => {
         // Declare variables for github username and new engineer
         const newGithub = "githubUsername";
         const newEngineer = new Engineer("Emily", 200, "random@test.com", newGithub);
-        // Expect the Engineer github username to be the new github username
+        // Expect the github username to be added to the engineer
         expect(newEngineer.githubUsername).toBe(newGithub);
     });
 });
