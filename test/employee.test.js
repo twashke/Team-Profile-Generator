@@ -12,7 +12,7 @@ describe("Employee", () => {
     it("Sets name using constructor function", () => {
         // Declare variables for name and employee
         const newName = "Alice";
-        const newEmployee = newEmployee(newName);
+        const newEmployee = new Employee(newName);
         // Expect the employee name to be the new name
         expect(newEmployee.name).toBe(newName);
     });
@@ -47,7 +47,7 @@ describe("Employee", () => {
             const employeeId = 200;
             const newEmployee = new Employee("Alice", employeeId);
             // Expect function to return employee id
-            expect(newEmployee.getName()).toBe(employeeId);
+            expect(newEmployee.getId()).toBe(employeeId);
         });
     });
     // Test function to get email
@@ -70,7 +70,6 @@ describe("Employee", () => {
             expect(newEmployee.getRole()).toBe(employeeRole);
         });
     });
-
 });
 
 
