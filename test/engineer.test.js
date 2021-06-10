@@ -16,7 +16,7 @@ describe("getGithubUsername", () => {
     it("Gets github username when getGithubUsername function is called", ()=> {
         // Declare variables for github username and new engineer
         const engineerGithub = "githubUsername";
-        const newEngineer = new Engineer("Alice", 200, "random@test.com");
+        const newEngineer = new Engineer("Alice", 200, "random@test.com", engineerGithub);
         // Expect function to return github username
         expect(newEngineer.getGithubUsername()).toBe(engineerGithub);
     });
