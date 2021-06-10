@@ -7,7 +7,7 @@ const chalk = require("chalk");
 const Manager = require("./lib/manager");
 const Engineer = require("./lib/engineer")
 const Intern = require("./lib/intern");
-const { createConnection } = require("net");
+const Employee = require("./lib/Employee");
 
 // Declare variables for employees
 const teamProfile = [];
@@ -37,7 +37,7 @@ function startHTML() {
         <!-- Container for Employee Cards -->
         <div class="container d-flex flex-row flex-wrap justify-content-between">`
     // Write to File the Beginning of the HTML
-    fs.writeFile("./dist/teamProfile.html", start, function(err) {
+    fs.writeFile("index.html", start, function(err) {
         // If error console log the error
         if (err) {
         console.log(err);
@@ -109,15 +109,75 @@ const addNewEmployee = async() => {
                 }
             // Add new employee to the variable declared
             teamProfile.push(newEmployee);
-            console.log("Team Profile:", teamProfile);
+            addHTML(newEmployee);
             switch(addMember) {
                 case "Yes":
                     addNewEmployee()
                     break;
                 case "No":
                     endHTML();
-                    break;
             }
+        });
+    });
+};
+// Function to write the HTML cards
+function addHTML(newEmployee) {
+    return new Promise(function(resolve, reject) {
+        const name = newEmployee.getName();
+        const role = newEmployee.getRole();
+        const id = newEmployee.getId();
+        const email = newEmployee.getEmail();
+        let html = "";
+
+        if (role === "Manager") {
+            const officeNumber = newEmployee.getOfficeNumber();
+            html = `
+            <div class="card m-3" style="width: 18rem;">
+            <div class="card-body bg-primary text-white text-center">
+                <h4 class="card-title">${name}</h4>
+                <h4><i class="fas fa-phone"></i> Manager</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
+                <li class="list-group-item">Office Number: ${officeNumber}</li>
+            </ul>
+            </div>`
+        } else if (role === "Engineer") {
+            const githubUsername = newEmployee.getGithubUsername();
+            html = `
+            <div class="card m-3" style="width: 18rem;">
+            <div class="card-body bg-primary text-white text-center">
+                <h4 class="card-title">${name}</h4>
+                <h4><i class="fab fa-github-square"></i> Engineer</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
+                <li class="list-group-item">GitHub: <a href="https://github.com/${githubUsername}">${githubUsername}</a></li>
+            </ul>
+            </div>`
+        } else if (role === "Intern") {
+            const school = newEmployee.getSchool();
+            html = `
+            <div class="card m-3" style="width: 18rem;">
+            <div class="card-body bg-primary text-white text-center">
+                <h4 class="card-title">${name}</h4>
+                <h4><i class="fas fa-graduation-cap"></i> Intern</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
+                <li class="list-group-item">School: ${school}</li>
+            </ul>
+            </div>`
+        }
+        console.log("Adding the employee to the Team Profile");
+        fs.appendFile("index.html", html, function (err) {
+            if (err) {
+                return reject(err);
+            };
+            return resolve();
         });
     });
 };
@@ -128,7 +188,12 @@ function endHTML() {
 `       </div>
     </body>
 </html>`
-console.log(end);
+fs.appendFile("index.html", end, function (err) {
+    if (err) {
+        console.log(err);
+    };
+});
+console.log("end");
 };
 
 function generateTeamProfile() {
@@ -137,32 +202,3 @@ function generateTeamProfile() {
 }
 
 generateTeamProfile();
-
-
-// //Function to write README file
-// const writeToFile = (fileName, data) => {
-//     fs.writeFile(fileName, data, (err) =>
-//         err ? console.error(err) : console.log(chalk.bgMagenta(`Successfully created README.md`))
-//     );
-// }
-
-// //Function to initialize the generator 
-// const init = async () => {
-//     try {
-//         console.log(message);
-//         // Answers to come from inquirer prompt
-//         const answers = await inquirer.prompt(questions);
-//         // Pull avatar from github
-//         const image = await api.githubPic(answers);
-//         // Generate Markdown using answers and avatar
-//         const readme = generateMarkdown(answers, image);
-//         // write to file
-//         writeToFile("/Users/tiffanywashke/Desktop/homework/10_Homework-Team-Profile-Generator/Team-Profile-Generator/README.md", readme);
-//     } catch (err) {
-//         // Console log any error that occurs
-//         console.log(err);
-//     }
-// }
-
-// // Run function
-// init();
