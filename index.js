@@ -7,16 +7,18 @@ const chalk = require("chalk");
 const Manager = require("./lib/manager");
 const Engineer = require("./lib/engineer")
 const Intern = require("./lib/intern");
-const Employee = require("./lib/Employee");
 
 // Declare variables for employees
 const teamProfile = [];
-// Declare variables for message
-const message = chalk.bgCyan(`Welcome to the Team Profile Generator! Answer the following questions to generate your team profile`);
+// Declare variables for messages
+const startMessage = chalk.bgCyan(`Welcome to the Team Profile Generator! Answer the following questions to generate your team profile`);
+const addMemberMessage = chalk.bgCyan("Added this employee to the Team Profile");
+const spacerMessage = ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+const endMessage = chalk.bgCyan("Your Team Profile page has been created!");
 
 // Function to for beginning of static HTML
 function startHTML() {
-    // Variable to for start of HTML
+    // Variable for start of HTML
     const start =
 `<!DOCTYPE html>
 <html lang="en">
@@ -37,16 +39,17 @@ function startHTML() {
         <!-- Container for Employee Cards -->
         <div class="container d-flex flex-row flex-wrap justify-content-between">`
     // Write to File the Beginning of the HTML
-    fs.writeFile("index.html", start, function(err) {
+    fs.writeFile("./dist/index.html", start, function(err) {
         // If error console log the error
         if (err) {
         console.log(err);
         }
     });
     // Display beginning message
-    console.log(message);
+    console.log(startMessage);
 };
 
+// Async function to create a new employee
 const addNewEmployee = async() => {
     inquirer.prompt([{
         type: "input",
@@ -72,7 +75,7 @@ const addNewEmployee = async() => {
         message: "Choose the employee's role from the list below:",
         choices: ["Manager", "Engineer", "Intern"],
     }])
-    // Function depending on role chosen
+    // Function to create variable for employee role
     .then(function({name, id, email, role}) {
         let employeeRole = "";
         switch(role) {
@@ -93,11 +96,13 @@ const addNewEmployee = async() => {
             message: `What is this employee's ${employeeRole}?`,
         },
         {
+            // Question to add additional team member
             type: "list",
             name: "addMember",
             message: "Would you like to add an additional team member?",
             choices: ["Yes", "No"],
         }])
+        // Function to create new employee depending role chosen
         .then(function({employeeRole, addMember}) {
             let newEmployee;
                 if (role === "Manager") {
@@ -109,7 +114,9 @@ const addNewEmployee = async() => {
                 }
             // Add new employee to the variable declared
             teamProfile.push(newEmployee);
+            // Call function to add employee information to HTML
             addHTML(newEmployee);
+            // Switch statement for additional employee question
             switch(addMember) {
                 case "Yes":
                     addNewEmployee()
@@ -128,14 +135,14 @@ function addHTML(newEmployee) {
         const id = newEmployee.getId();
         const email = newEmployee.getEmail();
         let html = "";
-
+        // HTML for Manager Card
         if (role === "Manager") {
             const officeNumber = newEmployee.getOfficeNumber();
             html = `
             <div class="card m-3" style="width: 18rem;">
             <div class="card-body bg-primary text-white text-center">
                 <h4 class="card-title">${name}</h4>
-                <h4><i class="fas fa-phone"></i> Manager</h4>
+                <h4><i class="fas fa-phone"></i>   Manager</h4>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: ${id}</li>
@@ -143,13 +150,14 @@ function addHTML(newEmployee) {
                 <li class="list-group-item">Office Number: ${officeNumber}</li>
             </ul>
             </div>`
+        // HTML for Engineer Card
         } else if (role === "Engineer") {
             const githubUsername = newEmployee.getGithubUsername();
             html = `
             <div class="card m-3" style="width: 18rem;">
             <div class="card-body bg-primary text-white text-center">
                 <h4 class="card-title">${name}</h4>
-                <h4><i class="fab fa-github-square"></i> Engineer</h4>
+                <h4><i class="fab fa-github-square"></i>   Engineer</h4>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: ${id}</li>
@@ -157,13 +165,14 @@ function addHTML(newEmployee) {
                 <li class="list-group-item">GitHub: <a href="https://github.com/${githubUsername}">${githubUsername}</a></li>
             </ul>
             </div>`
+        // HTML for Intern Card
         } else if (role === "Intern") {
             const school = newEmployee.getSchool();
             html = `
             <div class="card m-3" style="width: 18rem;">
             <div class="card-body bg-primary text-white text-center">
                 <h4 class="card-title">${name}</h4>
-                <h4><i class="fas fa-graduation-cap"></i> Intern</h4>
+                <h4><i class="fas fa-graduation-cap"></i>   Intern</h4>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: ${id}</li>
@@ -172,8 +181,12 @@ function addHTML(newEmployee) {
             </ul>
             </div>`
         }
-        console.log("Adding the employee to the Team Profile");
-        fs.appendFile("index.html", html, function (err) {
+        // Console log add member message
+        console.log(addMemberMessage);
+        // Console log spacer message
+        console.log(spacerMessage);
+        // Append Team Profile HTML
+        fs.appendFile("./dist/index.html", html, function (err) {
             if (err) {
                 return reject(err);
             };
@@ -188,17 +201,21 @@ function endHTML() {
 `       </div>
     </body>
 </html>`
-fs.appendFile("index.html", end, function (err) {
+// Append Team Profile HTML
+fs.appendFile("./dist/index.html", end, function (err) {
     if (err) {
         console.log(err);
     };
 });
-console.log("end");
+// Console log end message
+console.log(endMessage);
 };
 
+// Function to generate team profile
 function generateTeamProfile() {
     startHTML();
     addNewEmployee();
 }
 
+// Generate Team Profile
 generateTeamProfile();
