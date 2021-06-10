@@ -42,9 +42,8 @@ A command line application that allows the user to generate a Team Profile websi
 
 ## Usage
 
-- Watch the [Test and Team Profile Generator Walkthrough](https:) for instructions.
+- Watch the [Test and Team Profile Generator Walkthrough](https://drive.google.com/file/d/1jJxqHaN6WONLzWTq_xPmSxGnrtdFn7HX/view?usp=sharing) for instructions.
 - [Sample index.html](dist/index.html) created in walkthrough above.
-- ![Team Profile Website Example](Enter Github Website Information Here).
 - Follow installation instructions above (open command line, and run npm install and run node index.js).
 - Answer questions when prompted for employee.
 - The last question will be about adding additional employees, answer "Yes" to add another employee.
